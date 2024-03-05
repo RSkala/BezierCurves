@@ -672,8 +672,7 @@ MonoBehaviour:
   P0_ControlPoint: {fileID: 82196943}
   P1: {fileID: 1790382309}
   P1_ControlPoint: {fileID: 174676492}
-  controlPoint1: {fileID: 390838507}
-  controlPoint2: {fileID: 1790382309}
+  numLineSegments: 31
 --- !u!4 &1648841221
 Transform:
   m_ObjectHideFlags: 0

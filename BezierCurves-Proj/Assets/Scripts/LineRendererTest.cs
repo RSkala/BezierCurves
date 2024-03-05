@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class LineRendererTest : MonoBehaviour
 {
-    const int NUM_LINE_SEGMENTS = 50;
-
     [SerializeField] GameObject P0;
     [SerializeField] GameObject P0_ControlPoint;
 
     [SerializeField] GameObject P1;
     [SerializeField] GameObject P1_ControlPoint;
+
+    [SerializeField][Range(1, 1000)] int numLineSegments = 50;
 
     LineRenderer lineRenderer;
 
@@ -17,7 +17,7 @@ public class LineRendererTest : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         if(lineRenderer == null)
         {
-            Debug.LogError("Invalid lineRenderer");
+            Debug.LogError("Invalid lineRenderer on " + gameObject.name);
         }
         CheckValidControlPoints();
     }
@@ -53,12 +53,12 @@ public class LineRendererTest : MonoBehaviour
     void DrawBezierCurve()
     {
         // The number of positions will always be one more than the number of segments, so add 1 to the number of segments
-        lineRenderer.positionCount = NUM_LINE_SEGMENTS + 1;
+        lineRenderer.positionCount = numLineSegments + 1;
 
         // Iterate through the number of line positions indexes so we can get the "t" values for t=0 through t=1.
         for(int i = 0; i < lineRenderer.positionCount; ++i)
         {
-            float t = i / (float)NUM_LINE_SEGMENTS;
+            float t = i / (float)numLineSegments;
 
             Vector3 bezierPoint = CalculateCubicBezierPoint(t, P0.transform.position, P0_ControlPoint.transform.position, P1_ControlPoint.transform.position, P1.transform.position);
             lineRenderer.SetPosition(i, bezierPoint);
