@@ -1,38 +1,92 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LineRendererTest : MonoBehaviour
 {
-    [SerializeField]
-    GameObject controlPoint1;
+    const int NUM_LINE_SEGMENTS = 50;
 
-    [SerializeField]
-    GameObject controlPoint2;
+    [SerializeField] GameObject P0;
+    [SerializeField] GameObject P0_ControlPoint;
+
+    [SerializeField] GameObject P1;
+    [SerializeField] GameObject P1_ControlPoint;
 
     LineRenderer lineRenderer;
 
-    // Start is called before the first frame update
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        if(lineRenderer == null)
+        {
+            Debug.LogError("Invalid lineRenderer");
+        }
+        CheckValidControlPoints();
     }
 
-    // Update is called once per frame
+    void CheckValidControlPoints()
+    {
+        if(P0 == null)
+        {
+            Debug.LogError("P0 is null");
+        }
+
+        if(P0_ControlPoint == null)
+        {
+            Debug.LogError("P0_ControlPoint is null");
+        }
+
+        if(P1 == null)
+        {
+            Debug.LogError("P1 is null");
+        }
+
+        if(P1_ControlPoint == null)
+        {
+            Debug.LogError("P1_ControlPoint is null");
+        }
+    }
+
     void Update()
     {
-        UpdateLineEffect();
+        DrawBezierCurve();
     }
 
-    void UpdateLineEffect()
+    void DrawBezierCurve()
     {
-        //lineRenderer.positionCount = 51; // Number of segments + 1
-        lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0, controlPoint1.transform.position);
-        lineRenderer.SetPosition(1, controlPoint2.transform.position);
-        // for(int i = 0; i < lineRenderer.positionCount; ++i)
-        // {
+        // The number of positions will always be one more than the number of segments, so add 1 to the number of segments
+        lineRenderer.positionCount = NUM_LINE_SEGMENTS + 1;
 
-        // }
+        // Iterate through the number of line positions indexes so we can get the "t" values for t=0 through t=1.
+        for(int i = 0; i < lineRenderer.positionCount; ++i)
+        {
+            float t = i / (float)NUM_LINE_SEGMENTS;
+
+            Vector3 bezierPoint = CalculateCubicBezierPoint(t, P0.transform.position, P0_ControlPoint.transform.position, P1_ControlPoint.transform.position, P1.transform.position);
+            lineRenderer.SetPosition(i, bezierPoint);
+        }
+    }
+
+    Vector3 CalculateCubicBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        //------------------------------------------------------
+        // Cubic Bezier Curve Forumula:
+        //
+        // (1-t)^3 * P0 +
+        // 3*(1-t)^2 * t*P1 +
+        // 3*(1-t) * t^2 * P2 +
+        // t^3 * P3 
+        //------------------------------------------------------
+        float oneMinusT = 1 - t;
+        float oneMinusTSquared = oneMinusT * oneMinusT;
+        float oneMinusTCubed = oneMinusTSquared * oneMinusT;
+
+        float tSquared = t * t;
+        float tCubed = tSquared * t;
+
+        Vector3 bezierPoint = oneMinusTCubed * p0;
+        bezierPoint += 3 * oneMinusTSquared * t * p1;
+        bezierPoint += 3 * oneMinusT * tSquared * p2;
+        bezierPoint += tCubed * p3;
+
+        return bezierPoint;
     }
 }
