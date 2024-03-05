@@ -742,7 +742,7 @@ MonoBehaviour:
   P0_ControlPoint: {fileID: 82196943}
   P1: {fileID: 1790382309}
   P1_ControlPoint: {fileID: 174676492}
-  numLineSegments: 5
+  numLineSegments: 50
   lineWidth: 0.25
 --- !u!120 &1556004632
 LineRenderer:
