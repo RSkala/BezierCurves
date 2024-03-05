@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class BezierCurve : MonoBehaviour
+public class CubicBezierCurve : MonoBehaviour
 {
     [SerializeField] GameObject P0;
     [SerializeField] GameObject P0_ControlPoint;
@@ -78,9 +78,9 @@ public class BezierCurve : MonoBehaviour
         // Cubic Bezier Curve Forumula:
         //
         // (1-t)^3 * P0 +
-        // 3*(1-t)^2 * t*P1 +
-        // 3*(1-t) * t^2 * P2 +
-        // t^3 * P3 
+        //  3*(1-t)^2 * t*P1 +
+        //  3*(1-t) * t^2 * P2 +
+        //  t^3 * P3 
         //------------------------------------------------------
         float oneMinusT = 1 - t;
         float oneMinusTSquared = oneMinusT * oneMinusT;

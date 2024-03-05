@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 1556004632}
   - component: {fileID: 1556004631}
   m_Layer: 0
-  m_Name: BezierCurve
+  m_Name: CubicBezierCurve
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   P0_ControlPoint: {fileID: 82196943}
   P1: {fileID: 1790382309}
   P1_ControlPoint: {fileID: 174676492}
-  numLineSegments: 50
+  numLineSegments: 5
   lineWidth: 0.25
 --- !u!120 &1556004632
 LineRenderer:
