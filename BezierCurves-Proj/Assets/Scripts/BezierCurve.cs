@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public class LineRendererTest : MonoBehaviour
+[RequireComponent(typeof(LineRenderer))]
+public class BezierCurve : MonoBehaviour
 {
     [SerializeField] GameObject P0;
     [SerializeField] GameObject P0_ControlPoint;
     [SerializeField] GameObject P1;
     [SerializeField] GameObject P1_ControlPoint;
     [SerializeField][Range(1, 100)] int numLineSegments = 50;
-    [SerializeField][Range(0.01f, 1.0f)] float lineWidth = 0.5f;
+    [SerializeField][Range(0.01f, 1.0f)] float lineWidth = 0.25f;
 
     LineRenderer lineRenderer;
 
