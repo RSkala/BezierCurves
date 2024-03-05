@@ -10,7 +10,8 @@ public class CubicBezierCurve : MonoBehaviour
     [SerializeField] GameObject P1_ControlPoint;
     [SerializeField][Range(1, 100)] int numLineSegments = 50;
     [SerializeField][Range(0.01f, 1.0f)] float lineWidth = 0.25f;
-    [SerializeField] Color lineColor = Color.white;
+    [SerializeField] Color lineStartColor = Color.white;
+    [SerializeField] Color lineEndColor = Color.white;
 
     LineRenderer lineRenderer;
 
@@ -24,14 +25,13 @@ public class CubicBezierCurve : MonoBehaviour
         {
             lineRenderer.startWidth = lineRenderer.endWidth = lineWidth;
 
-            // Create a material so the color of the line can be changed
+            // Create and set the lineRenderer material so the color of the line can be changed
             Shader defaultShader = Shader.Find("Sprites/Default");
-            Material material = new(defaultShader)
-            {
-                color = lineColor
-            };
+            Material material = new(defaultShader);
             List<Material> materials = new() { material };
             lineRenderer.SetMaterials(materials);
+            lineRenderer.startColor = lineStartColor;
+            lineRenderer.endColor = lineEndColor;
         }
 
         CheckValidControlPoints();
@@ -63,12 +63,19 @@ public class CubicBezierCurve : MonoBehaviour
     void Update()
     {
         UpdateLineWidth();
+        UpdateLineColors();
         DrawBezierCurve();
     }
 
     void UpdateLineWidth()
     {
         lineRenderer.startWidth = lineRenderer.endWidth = lineWidth;
+    }
+
+    void UpdateLineColors()
+    {
+        lineRenderer.startColor = lineStartColor;
+        lineRenderer.endColor = lineEndColor;
     }
 
     void DrawBezierCurve()
