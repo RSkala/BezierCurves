@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -9,17 +10,30 @@ public class CubicBezierCurve : MonoBehaviour
     [SerializeField] GameObject P1_ControlPoint;
     [SerializeField][Range(1, 100)] int numLineSegments = 50;
     [SerializeField][Range(0.01f, 1.0f)] float lineWidth = 0.25f;
+    [SerializeField] Color lineColor = Color.white;
 
     LineRenderer lineRenderer;
 
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        if(lineRenderer == null)
+        if(!TryGetComponent<LineRenderer>(out lineRenderer))
         {
             Debug.LogError("Invalid lineRenderer on " + gameObject.name);
-            lineRenderer.startWidth = lineRenderer.endWidth = lineWidth;
         }
+        else
+        {
+            lineRenderer.startWidth = lineRenderer.endWidth = lineWidth;
+
+            // Create a material so the color of the line can be changed
+            Shader defaultShader = Shader.Find("Sprites/Default");
+            Material material = new(defaultShader)
+            {
+                color = lineColor
+            };
+            List<Material> materials = new() { material };
+            lineRenderer.SetMaterials(materials);
+        }
+
         CheckValidControlPoints();
     }
 

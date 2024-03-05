@@ -744,6 +744,7 @@ MonoBehaviour:
   P1_ControlPoint: {fileID: 174676492}
   numLineSegments: 50
   lineWidth: 0.25
+  lineColor: {r: 0, g: 0.35418844, b: 1, a: 1}
 --- !u!120 &1556004632
 LineRenderer:
   serializedVersion: 2
