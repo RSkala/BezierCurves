@@ -4,11 +4,10 @@ public class LineRendererTest : MonoBehaviour
 {
     [SerializeField] GameObject P0;
     [SerializeField] GameObject P0_ControlPoint;
-
     [SerializeField] GameObject P1;
     [SerializeField] GameObject P1_ControlPoint;
-
-    [SerializeField][Range(1, 1000)] int numLineSegments = 50;
+    [SerializeField][Range(1, 100)] int numLineSegments = 50;
+    [SerializeField][Range(0.01f, 1.0f)] float lineWidth = 0.5f;
 
     LineRenderer lineRenderer;
 
@@ -18,6 +17,7 @@ public class LineRendererTest : MonoBehaviour
         if(lineRenderer == null)
         {
             Debug.LogError("Invalid lineRenderer on " + gameObject.name);
+            lineRenderer.startWidth = lineRenderer.endWidth = lineWidth;
         }
         CheckValidControlPoints();
     }
@@ -47,7 +47,13 @@ public class LineRendererTest : MonoBehaviour
 
     void Update()
     {
+        UpdateLineWidth();
         DrawBezierCurve();
+    }
+
+    void UpdateLineWidth()
+    {
+        lineRenderer.startWidth = lineRenderer.endWidth = lineWidth;
     }
 
     void DrawBezierCurve()
